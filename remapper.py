@@ -1,3 +1,5 @@
+"""tools for converting maps to 3space, etc"""
+
 import numpy as np 
 import sys
 sys.path.insert(0,r"F:\extended_desktop\code")
@@ -32,7 +34,7 @@ def magnitude(a:np.array) -> float:
     return np.sqrt(sum([c**2 for c in a]))
 
 
-# function that defines basis vectors for a given lat/long
+## function that defines basis vectors for a given lat/long
 def lat_long_to_tangent_space_basis_vectors(lat:float, long:float) -> np.array:
     """
     converts (lat, long) coordinates into x,y,z axes of
@@ -85,7 +87,7 @@ def remapper(src:tuple, dst:tuple, verbose:bool=False) -> np.array:
         print(f"{dComp=}")
     
     ## there's an annoying rotation here to get compass directions
-    north_of_east = np.angle( np.complex(eComp,nComp) )
+    north_of_east = np.angle( complex(eComp,nComp) )
     east_of_north = np.pi/2-north_of_east
     compass = east_of_north
     
