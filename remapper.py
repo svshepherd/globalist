@@ -101,3 +101,35 @@ def remapper(src:tuple, dst:tuple, verbose:bool=False) -> np.array:
     
     return compassDeg, dipDeg
 
+
+## according to co-pilot
+import math
+
+def copilot_calculates_bearing_and_dip(lat1, lon1, lat2, lon2):
+    # Convert latitude and longitude from degrees to radians
+    lat1 = math.radians(lat1)
+    lon1 = math.radians(lon1)
+    lat2 = math.radians(lat2)
+    lon2 = math.radians(lon2)
+
+    # Difference in coordinates
+    dlon = lon2 - lon1
+
+    # Earth's radius in kilometers
+    R = 6371.0
+
+    # Haversine formula to calculate the great circle distance
+    a = math.sin(dlon/2) * math.sin(dlon/2) + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2) * math.sin(dlon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    distance = R * c
+
+    # Calculate bearing
+    x = math.sin(dlon) * math.cos(lat2)
+    y = math.cos(lat1) * math.sin(lat2) - (math.sin(lat1) * math.cos(lat2) * math.cos(dlon))
+    bearing = math.degrees(math.atan2(x, y))
+    bearing = (bearing + 360) % 360
+
+    # Calculate dip
+    dip = math.degrees(math.atan2(distance, R))
+
+    return bearing, dip
